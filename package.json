@@ -1,0 +1,7 @@
+{
+    "name": "axat"
+  , "description": "todo"
+  , "author": "Daniel Ly <daniel.ly@lively5.ch> (http://lively5.ch)"
+  , "version": "0.0.0"
+  , "main": "lib/axat"
+}
