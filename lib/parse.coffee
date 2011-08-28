@@ -94,21 +94,3 @@ createParser = exports.createParser = (cb) ->
   # Return the streaming function
   stream
 
-
-if require.main is module
-  console.log '*** Table', table
-  console.log 'Now parsing, please enter text'
-
-  stream = createParser (token) ->
-    console.log token
-
-  process.stdin.on 'data', (chunk) ->
-    stream chunk
-
-  process.stdin.on 'end', ->
-    stream lex.STOP
-    console.log('-----');
-
-  process.stdin.resume()
-
-
