@@ -2,6 +2,7 @@ keys = Object.keys
 
 
 lex = require './lex'
+i64 = require './i64'
 
 
 exports.ParseError = class ParseError
@@ -68,7 +69,7 @@ createParser = exports.createParser = (cb) ->
     Axiom: (token)       ->
       cb do (
         ID: -> new Tag token.value
-        INTEGER: -> token.value | 0
+        INTEGER: -> i64r.atoll new Buffer 8, token.value
         DOUBLE: -> +token.value
         STRING: -> token.value # todo convert
       )[token.type]
