@@ -78,7 +78,7 @@ namespace i64r {
     }
 
 
-    static Handle<Value> i32low(const Arguments &args) {
+    static Handle<Value> setLow(const Arguments &args) {
       int32_t* p = _asInt32(args.This());
       if (!p) return Null();
 
@@ -88,13 +88,30 @@ namespace i64r {
     }
 
 
-    static Handle<Value> i32high(const Arguments &args) {
+    static Handle<Value> setHigh(const Arguments &args) {
       int32_t* p = _asInt32(args.This());
       if (!p) return Null();
 
       p[1] = args[0]->ToInt32()->Value();
 
       return args.This();
+    }
+
+
+    static Handle<Value> getLow(const Arguments &args) {
+      int32_t* p = _asInt32(args.This());
+      if (!p) return Null();
+
+      return Integer::New(p[0]);
+    }
+
+
+    static Handle<Value> getHigh(const Arguments &args) {
+      int32_t* p = _asInt32(args.This());
+      if (!p) return Null();
+
+
+      return Integer::New(p[1]);
     }
 
 
@@ -119,8 +136,10 @@ namespace i64r {
       NAME(zero);
       NAME(atoll);
       NAME(lltoa);
-      NAME(i32low);
-      NAME(i32high);
+      NAME(getLow);
+      NAME(getHigh);
+      NAME(setLow);
+      NAME(setHigh);
       NAME(add);
     }
   };

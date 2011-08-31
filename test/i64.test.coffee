@@ -7,9 +7,8 @@ i64 = axat.i64
 
 module.exports =
   Conversions: ->
-    i = new i64
-    i.atoll '2344560'
-    assert.equal i.lltoa(), '2344560'
+    i = i64.create '2344560'
+    assert.equal i.asString, '2344560'
 
     values = '0 -1 1 -2 2 127 -127 128 -128 1024 65536 -65536
       4294967296 -4294967296 1099511627776 -1099511627776
@@ -17,24 +16,24 @@ module.exports =
       281474976710656 -281474976710656 281474934576710656
       844424930131968 72057594037927940 184467440737095520
       884467440737095520 -884467440737095520'.split /\s+/
-    assert.equal (i.atoll v; i.lltoa()), v for v in values
+    assert.equal (i = i64.create v; i.asString), v for v in values
 
   SomeOperations: ->
-    i1 = new i64
-    i2 = new i64
-    i1.zero()
-    assert.equal i1.lltoa(), '0'
-    i64r.zero i2
-    assert.equal i64r.lltoa(i2), '0'
-    i64r.i32low i1, 17
-    assert.equal i64r.lltoa(i1), '17'
-    i64r.i32low i2, 42
-    assert.equal i64r.lltoa(i2), '42'
-    assert.equal i64r.lltoa(i64r.add i1, i1, i2), '59'
-    assert.equal i64r.lltoa(i1), '59'
-    assert.equal i64r.lltoa(i2), '42'
-
-# todo some tests with buffer.write('base64')
+    i1 = i64.create()
+    i2 = i64.create()
+    assert.equal i1.asString, '0'
+    assert.equal i2.asString, '0'
+    i1.low = 17
+    assert.equal i1.asString, '17'
+    i2.low = 42
+    assert.equal i2.asString, '42'
+    assert.equal i1.add(i1, i2).asString, '59'
+    assert.equal i1.asString, '59'
+    assert.equal i2.asString, '42'
+    assert.equal i1.low, 59
+    assert.equal i1.zero().asString, '0'
+    i1.high = 1
+    assert.equal i1.asString, '4294967296'
 
 
 if require.main is module

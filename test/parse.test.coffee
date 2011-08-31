@@ -1,21 +1,21 @@
 assert = require 'assert'
 axat = require 'axat'
 parse = axat.parse
-tag = new parse.Tag('tag')
 STOP = axat.lex.STOP
+
+i64 = (v) -> axat.i64.create().atoll v
 
 
 module.exports =
 
   Parse: ->
     parseIndex = 0
-    parseItems = [
-      tag, 1, 2.0, false, tag, tag, '"string"', false, false, tag, false, null
-    ]
-    stream = parse.createParser (item) ->
-      assert.deepEqual item, parseItems[parseIndex++]
+    parseItems =
+      '(a) 1L 2.1 false (b) (c) "string" false false (d) false null'.split ' '
+    itemChecker = (item) -> assert.equal item + '', parseItems[parseIndex++]
 
-    stream '(tag 1 2.0) (tag (tag "string")) (tag)'
+    stream = parse.createParser itemChecker
+    stream '(a 1 2.1) (b (c "string")) (d)'
     stream STOP
     assert.equal parseIndex, parseItems.length
 
@@ -58,13 +58,13 @@ module.exports =
 
   ResetParser: ->
     parseIndex = 0
-    parseItems = [ tag, false, null, tag, false, null ]
-    itemChecker = (item) -> assert.deepEqual item, parseItems[parseIndex++]
+    parseItems = '(a) false null (b) false null'.split ' '
+    itemChecker = (item) -> assert.equal item + '', parseItems[parseIndex++]
 
     stream = parse.createParser itemChecker
     stream '('
     stream.reset()
-    stream '(tag)'
+    stream '(a)'
     stream STOP
 
     # Parser is dead: should not throw
@@ -73,7 +73,7 @@ module.exports =
 
     stream.reset()
     stream.cb = itemChecker
-    stream '(tag)'
+    stream '(b)'
     stream STOP
     assert.equal parseIndex, parseItems.length
 

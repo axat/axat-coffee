@@ -10,7 +10,7 @@ exports.ParseError = class ParseError
 
 exports.Tag = class Tag
   constructor: (@name) ->
-
+  toString: () -> "(#{@name})"
 
 table =
   ERROR:     'SyntaxError'
@@ -69,7 +69,7 @@ createParser = exports.createParser = (cb) ->
     Axiom: (token)       ->
       cb do (
         ID: -> new Tag token.value
-        INTEGER: -> i64r.atoll new Buffer 8, token.value
+        INTEGER: -> i64.create().atoll token.value
         DOUBLE: -> +token.value
         STRING: -> token.value # todo convert
       )[token.type]

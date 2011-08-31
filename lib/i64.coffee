@@ -14,22 +14,33 @@ Most operations are in a Node addon because many 64 bit operations are
 ###
 
 i64r = require './i64r'
+inspect = require('util').inspect
 
 module.exports =
   create: ->
     b = new Buffer 8
     b.__proto__ = i64r
-    if arguments.length is 0 then zero()
-    else if arguments.length is 1 then @atoll arguments[0]
+    if arguments.length is 0 then b.zero()
+    else if arguments.length is 1 then b.atoll arguments[0]
     else
-      @i32low arguments[0]
-      @i32high arguments[0]
+      b.setLow arguments[0]
+      b.setHigh arguments[0]
 
-i64.create = -> new i64 8
-
-i64::prototype = require './i64r'
-
-i64::prototype.assign = (src) -> src.copy @
-
-i64::prototype.toString = (src) -> @.lltoa()
+Object.defineProperties i64r,
+  inspect:
+    value: (args...) ->
+      if @ is i64r then inspect.call @, args else @toString()
+  assign:
+    value: (src) -> src.copy @
+  asString:
+    get: () -> @lltoa()
+    set: (s) -> @atoll s
+  toString:
+    value: (src) -> @lltoa() + 'L'
+  low:
+    get: () -> @getLow()
+    set: (i) -> @setLow i
+  high:
+    get: () -> @getHigh()
+    set: (i) -> @setHigh i
 
