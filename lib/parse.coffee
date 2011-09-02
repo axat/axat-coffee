@@ -1,12 +1,15 @@
 keys = Object.keys
 
 
+assert = require 'assert'
 lex = require './lex'
 i64 = require './i64'
+stringparse = require './stringparse'
 
 
 exports.ParseError = class ParseError
   constructor: (@message) ->
+
 
 exports.Tag = class Tag
   constructor: (@name) ->
