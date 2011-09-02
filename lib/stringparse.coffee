@@ -11,7 +11,6 @@ exports.unescape = (s) ->
     else assert.ok false, 'collect did not understand stuff'
 
   while -1 isnt pos = s.indexOf '\\'
-    console.log "*** s", s, "pos", pos, "collect", s.slice(0, pos), "rest", s.slice pos + 2
     collect s.slice 0, pos
     s = s.slice pos + 1
 
@@ -32,7 +31,6 @@ exports.unescape = (s) ->
     s = s.slice inc
 
   collect s
-  console.log "*** rest", s, "result", result
   Buffer result
 
 
@@ -43,11 +41,14 @@ hexUnescape = (esc) ->
 # Do not use the unescape(encodeURITComponent(s)) trick, it does not work with
 # astral planes. Ignore surrogates.
 utf8Unescape = (esc) ->
-  console.log "*** esc", esc
+  #console.log "*** esc", esc
   toUtf8 parseInt esc, 16
 
+# Code point U+0 to U+10ffff to UTF8 (modified UTF8: U+0 as 0xc080)
 toUtf8 = (c) ->
-  console.log "*** c", c
+  #console.log "*** c", c
+  if c == 0x00 then return [0xc0, 0x80]
+
   if c < 0x80 then return [0x00 | c]
 
   c0 = 0x80 | (c & 0x3f)

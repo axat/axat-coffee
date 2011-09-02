@@ -4,7 +4,7 @@ keys = Object.keys
 assert = require 'assert'
 lex = require './lex'
 i64 = require './i64'
-stringparse = require './stringparse'
+exports.stringparse = stringparse = require './stringparse'
 
 
 exports.ParseError = class ParseError
