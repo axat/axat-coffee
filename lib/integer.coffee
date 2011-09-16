@@ -16,31 +16,29 @@ Most operations are in a Node addon because many 64 bit operations are
 i64r = require './i64r'
 inspect = require('util').inspect
 
-module.exports =
+module.exports = integer =
   create: ->
     b = new Buffer 8
     b.__proto__ = i64r
     if arguments.length is 0 then b.zero()
     else if arguments.length is 1 then b.atoll arguments[0]
     else
-      b.setLow arguments[0]
-      b.setHigh arguments[0]
+      b.low = arguments[0]
+      b.high = arguments[1]
+      b
 
 Object.defineProperties i64r,
   inspect:
     value: (args...) ->
-      if @ is i64r then inspect.call @, args else @toString()
-  assign:
-    value: (src) -> src.copy @
-  asString:
-    get: () -> @lltoa()
-    set: (s) -> @atoll s
+      if @ is i64r then inspect.call @, args else @toString() + 'L'
   toString:
-    value: (src) -> @lltoa() + 'L'
+    value: () -> @lltoa()
   low:
     get: () -> @getLow()
     set: (i) -> @setLow i
   high:
     get: () -> @getHigh()
     set: (i) -> @setHigh i
+  copy:
+    value: () -> integer.create @low, @high
 

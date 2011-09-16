@@ -1,9 +1,8 @@
 keys = Object.keys
 
 
-assert = require 'assert'
 lex = require './lex'
-i64 = require './i64'
+integer = require './integer'
 exports.stringparse = stringparse = require './stringparse'
 
 
@@ -72,7 +71,7 @@ createParser = exports.createParser = (cb) ->
     Axiom: (token)       ->
       cb do (
         ID: -> new Tag token.value
-        INTEGER: -> i64.create().atoll token.value
+        INTEGER: -> integer.create().atoll token.value
         DOUBLE: -> +token.value
         STRING: -> token.value # todo convert
       )[token.type]

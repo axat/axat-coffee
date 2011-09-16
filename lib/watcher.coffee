@@ -5,6 +5,8 @@
 # The watcher proxy is nice: it writes all accesses as stack traces... Very
 # illuminating how an object can be accessed.
 
+# Todo: allow freeze() & Co. - now they throw TypeError, see comment below.
+
 
 Object.defineProperty Object::, 'getPropertyDescriptor',
   value: (object, key) ->

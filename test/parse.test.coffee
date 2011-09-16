@@ -11,7 +11,7 @@ module.exports =
   Parse: ->
     parseIndex = 0
     parseItems =
-      '(a) 1L 2.1 false (b) (c) "string" false false (d) false null'.split ' '
+      '(a) 1 2.1 false (b) (c) "string" false false (d) false null'.split ' '
     itemChecker = (item) -> assert.equal item + '', parseItems[parseIndex++]
 
     stream = parse.createParser itemChecker

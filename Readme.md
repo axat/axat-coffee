@@ -19,6 +19,8 @@ always.
 - Also inspired by LaTeX. Pronounce x like ch in Loch Ness.
 - Agate in Modern Greek is αχάτη.
 - Incidentally pronounced same as Agate in German («Achat»).
+- Uses something I call «axioms». It is nice that Axat and axioms start with
+  the same two letters.
 
 ## What is special?
 
